@@ -1,0 +1,101 @@
+﻿@model CURDUSERMGMT.Models.t_user_profile
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/bundles/bootstrap")
+    @Styles.Render("~/Content/css")
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .form-control {
+            display: block;
+            width: 100%;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.428571429;
+            color: #555555;
+            vertical-align: middle;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+    </style>
+
+</head>
+<body style="background-color:cornflowerblue;">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" style="background-color:black!important;">
+                            <h4> <i class="fa fa-key text-danger"></i> Sign Up</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-horizontal">
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">USER ID :</label>
+                                    @*@Html.LabelFor(model => model.userid, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                    <div class="col-md-4">
+                                        @Html.EditorFor(model => model.t_user_Id, new { htmlAttributes = new { @class = "form-control", placeholder = "User Id" } })
+                                        @Html.ValidationMessageFor(model => model.t_user_Id, "Please Fill UserID", new { @class = "text-danger" })
+                                        <span id="idValMsg"></span>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label class="control-label col-md-2">PASSWORD :</label>
+                                    @*@Html.LabelFor(model => model.passowrd, htmlAttributes: new { @class = "control-label col-md-2" })*@
+                                    <div class="col-md-4">
+                                        @Html.PasswordFor(model => model.t_user_Pass, new { @class = "form-control", placeholder = "Password" })
+                                        @*@Html.PasswordFor(model => model.t_user_Pass, new { htmlAttributes = new { @class = "form-control", placeholder = "Password"} })*@
+                                        @Html.ValidationMessageFor(model => model.t_user_Pass, "Please Fill Password", new { @class = "text-danger" })
+                                        <span id="passValMsg"></span>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Login" id="btnLogin" class="btn btn-success btn-block btn" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                    @Html.Raw(TempData["msg"])
+    }
+</body>
+</html>
+
+<script type="text/javascript">
+    $('#btnLogin').on('click', function () {
+
+        if ($('#t_user_Id').val() == "") {
+            $('#idValMsg').html("Please Fill UserID").css('color', '#b94a48');
+            return false;
+        }
+        if ($('#t_user_Pass').val() == "") {
+            $('#passValMsg').html("Please Fill Password").css('color', '#b94a48');
+            return false;
+        }
+    });
+
+</script>

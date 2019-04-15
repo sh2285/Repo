@@ -1,0 +1,411 @@
+﻿@model IEnumerable<CURDUSERMGMT.Models.t_user_profile>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<html>
+<head>
+    <title>Index</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/bundles/bootstrap")
+    @Styles.Render("~/Content/css")
+            
+    <style type="text/css">
+        .row {
+            margin-bottom: 10px;
+        }
+
+        .form-control {
+            display: block;
+            width: 100%;
+            height: 25px;
+            padding: 0px 5px;
+            font-size: 14px;
+            line-height: 1.428571429;
+            color: #555555;
+            vertical-align: middle;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .margintop {
+            margin-top: 25px;
+        }
+
+        tbody > tr > th {
+            background-color: #428bca7a !important;
+            color: #ffffff !important;
+        }
+    </style>
+
+</head>
+
+
+
+<body>
+
+    @* -----------------------------------------Show User Data Start----------------------- *@
+    <table id="tableUser" class="table table-bordered table-condensed table-responsive table-striped table-hover margintop">
+        <tr>
+            <th>User ID </th>
+            <th>First Name </th>
+            <th>LastName</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Update Date</th>
+            <th>Update By</th>
+            <th>LoginTime</th>
+            <th>Last LogoutTime</th>
+            <th><span>EDIT</span> </th>
+            <th><span>DELETE</span></th>
+        </tr>
+
+        @foreach (var item in Model)
+            {
+            <tr id="tableData">
+
+                <td class="UserID">
+                    <span>@item.t_user_Id</span>
+                </td>
+
+                <td class="FirstName">
+                    <span>@item.t_user_FirstName</span>
+                    <input class="form-control" type="text" value="@item.t_user_FirstName" name="FirstNameEdit" id="txtFirstNameEdit" style="display:none" />
+                </td>
+
+                <td class="LastName">
+                    <span>@item.t_user_LastName</span>
+                    <input class="form-control" type="text" value="@item.t_user_LastName" name="LastNameEdit" id="txtLastNameEdit" style="display:none" />
+                </td>
+
+                <td class="Email">
+                    <span>@item.t_user_Email</span>
+                    <input class="form-control" type="text" value="@item.t_user_Email" name="EmailEdit" id="txtEmailEdit" style="display:none" />
+                </td>
+
+                <td class="Status">
+                    <span>@item.t_user_Status</span>
+                    <input class="form-control" type="text" value="@item.t_user_Status" name="StatusEdit" id="txtStatusEdit" style="display:none" />
+                </td>
+
+                <td class="UpdatedDate">
+                    <span>@item.t_user_UpdateDt</span>
+                </td>
+
+                <td class="UpdatedBy">
+                    <span>@item.t_user_UpdateBy</span>
+                </td>
+
+                <td class="LoginTime">
+                    <span>@item.t_user_LoginTime</span>
+                    @*<input class="form-control" type="text" value="@item.t_user_LoginTime" name="LoginEdit" id="txtLoginEdit" style="display:none" />*@
+                </td>
+
+                <td class="LogoutTime">
+                    <span>@item.t_user_LogoutTime</span>
+                    @*<input class="form-control" type="text" value="@item.t_user_LogoutTime" name="LogoutEdit" id="txtLogoutEdit" style="display:none" />*@
+                </td>
+
+                <td>
+                    <button type="button" id="btnEdit" value="EDIT" class="Edit"><i class="fa fa-edit text-primary"></i></button>
+                    <button type="button" id="btnSaveEdit" value="UPDATE" class="Update" style="display:none"><i class="fa fa-check text-success"></i></button>
+                </td>
+
+                <td>
+                    <button type="button" id="btnDelete" value="DELETE" class="Delete"><i class="fa fa-trash text-danger"></i></button>
+                    <button type="button" id="btnCancel" value="CANCEL" class="Cancel" style="display:none"><i class="fa fa-close text-warning"></i></button>
+                </td>
+            </tr>
+        }
+    </table>
+    @* -----------------------------------------Show User Data End----------------------- *@
+
+
+
+    @* -----------------------------------------Add  New User Panel Start----------------------- *@
+    @if (Session["UserID"] != null)
+    {
+    <span style="display:none" id="userSessId">@Session["UserID"]</span>
+    }
+    <div class="row">
+        <div class="col-md-6">
+            <div id="CreateUser" class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title text-uppercase text-center fa fa-user-plus"> ADD NEW USER</h3>
+                </div>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="panel-body">
+                    <div class="row">
+                        <label class="control-label col-md-2">USER ID:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" name="UserId" id="txtUserId" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label class="control-label col-md-2">FirstName:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" name="FirstName" id="txtFirstName" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label class="control-label col-md-2">LastName:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" name="LastName" id="txtLastName" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label class="control-label col-md-2">Email:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" onblur="return CheckEmail()" name="Email" id="txtEmail" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label class="control-label col-md-2">Password:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="password" name="Pass" id="txtPass" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label class="control-label col-md-2">Status:</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="text" name="Status" id="txtStatus" />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button type="button" id="btnCreate" value="Add" class="btn btn-success">ADD</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @* -----------------------------------------Add  New User Panel End----------------------- *@
+
+</body>
+</html>
+
+<script type="text/javascript">
+
+   
+    
+
+    //  For Add New User **************************************
+
+    $("body").on("click", "#btnCreate", function () {
+        var chkbool = validation();
+        if (chkbool != true) {
+            return false;
+        };
+        // alert("jkj");
+        var txtUserId = $("#txtUserId");
+        var txtFirstName = $("#txtFirstName");
+        var txtLastName = $("#txtLastName");
+        var txtEmail = $("#txtEmail");
+        var txtPass = $("#txtPass");
+        var txtStatus = $("#txtStatus");
+       
+        var newUser = {};
+        newUser.t_user_Id = txtUserId.val();
+        newUser.t_user_FirstName = txtFirstName.val();
+        newUser.t_user_LastName = txtLastName.val();
+        newUser.t_user_Email = txtEmail.val();
+        newUser.t_user_Pass = txtPass.val();
+        newUser.t_user_Status = txtStatus.val();
+        newUser.t_user_UpdateBy = $("#userSessId").html();
+        $.ajax({
+            type: "POST",
+            url: "/api/t_user_profile",
+            data: JSON.stringify(newUser),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            //success: function (r) {
+            //    var row = $("#tableUser tr:last-child");
+            //    if ($("#tableUser tr:last-child span").eq(0).html() != "&nbsp;") {
+            //        row = row.clone();
+            //    }
+            //    AppendRow(row, r.t_user_Id, r.t_user_FirstName, r.t_user_LastName, r.t_user_Email, r.t_user_Pass , r.t_user_Status);
+            //    txtUserId.val();
+            //   txtFirstName.val();
+            //     txtLastName.val();
+            //    txtEmail.val();
+            //    txtPass.val();
+            //  txtStatus.val();
+            //}
+        });
+        window.location.href = window.location.href;
+    });
+
+
+
+    //  For Edit **************************************
+
+    $("body").on("click", "#tableUser .Edit", function () {
+        //alert("11");
+        var row = $(this).closest("tr");
+        var status = row.find(".Status").find("span").html();
+        if (status == "L") {
+            row.find(".Status").css('background-color', 'red');
+            alert("Please Contact Admin This Account Has Been Locked.");
+            return false;
+        }
+        $("td", row).each(function () {
+            if ($(this).find("input").length > 0) {
+                $(this).find("input").show();
+                $(this).find("span").hide();               
+            }
+           
+        });               
+        row.find(".Update").show();
+        row.find(".Cancel").show();
+        row.find(".Delete").hide();
+        $(this).hide();
+    });
+
+
+    // For Update ******************************************
+    $("body").on("click", "#tableUser .Update", function () {
+        //   alert("45");
+        var row = $(this).closest("tr");
+        $("td", row).each(function () {
+            if ($(this).find("input").length > 0) {
+                var span = $(this).find("span");
+                var input = $(this).find("input");
+                span.html(input.val());
+                span.show();
+                input.hide();
+            }
+        });
+        row.find(".Edit").show();
+        row.find(".Delete").show();
+        row.find(".Cancel").hide();
+        $(this).hide();
+
+        var item = {};
+
+        item.t_user_Id = row.find(".UserID").find("span").html();
+        item.t_user_FirstName = row.find(".FirstName").find("span").html();
+        item.t_user_LastName = row.find(".LastName").find("span").html();
+        item.t_user_Email = row.find(".Email").find("span").html();
+        item.t_user_Status = row.find(".Status").find("span").html();
+        item.t_user_UpdateDt = row.find(".UpdatedDate").find("span").html();
+        item.t_user_UpdateBy = row.find(".UpdatedBy").find("span").html();
+        item.t_user_LoginTime = row.find(".LoginTime").find("span").html();
+        item.t_user_LogoutTime = row.find(".LogoutTime").find("span").html();
+        //  alert("46");
+        $.ajax({
+            type: "PUT",
+            url: "/api/t_user_profile/" + item.t_user_Id,
+            data: JSON.stringify(item),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        });
+        window.location.href = window.location.href;
+    });
+
+
+    // For Cancel *********************************
+    $("body").on("click", "#tableUser .Cancel", function () {
+        var row = $(this).closest("tr");
+        $("td", row).each(function () {
+            if ($(this).find("input").length > 0) {
+                var span = $(this).find("span");
+                var input = $(this).find("input");
+                //input.val(span.html());
+                span.show();
+                input.hide();
+                $(".table").addClass("table");
+            }
+        });
+        row.find(".Edit").show();
+        row.find(".Delete").show();
+        row.find(".Update").hide();
+        $(this).hide();
+    });
+
+
+    // For Delete *********************************
+    $("body").on("click", "#tableUser .Delete", function () {
+        if (confirm("Do you want to delete this row?")) {
+            var row = $(this).closest("tr");
+            var UserId = row.find("span").html();
+            $.ajax({
+                type: "DELETE",
+                url: "/api/t_user_profile/" + UserId,
+                data: JSON.stringify(UserId),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if ($("#tblCustomers tr").length > 2) {
+                        row.remove();
+                    } else {
+                        row.find(".Edit").hide();
+                        row.find(".Delete").hide();
+                        row.find("span").html('&nbsp;');
+                    }
+                }
+            });
+            window.location.href = window.location.href;
+        }
+
+    });
+
+    //---------------------------Validation Of User Input ---------------------------
+    function validation() {
+        // alert("hjkh");
+        var txtUserId = $("#txtUserId").val();
+        var txtFirstName = $("#txtFirstName").val();
+        var txtLastName = $("#txtLastName").val();
+        var txtEmail = $("#txtEmail").val();
+        var txtPass = $("#txtPass").val();
+        var txtStatus = $("#txtStatus").val();
+
+        if (txtUserId == "") {
+            alert("Please Fill User ID");
+            $("#txtUserId").focus().css('border-color', 'red');
+            return false;
+        }
+        if (txtFirstName == "") {
+            alert("Please Fill FirstName")
+            $("#txtFirstName").focus().css('border-color', 'red');
+            return false;
+        }
+        if (txtLastName == "") {
+            alert("Please Fill LastName")
+            $("#txtLastName").focus().css('border-color', 'red');
+            return false;
+        }
+        if (txtEmail == "") {
+            alert("Please Fill Email")
+            $("#txtEmail").focus().css('border-color', 'red');
+            return false;
+        }
+        if (txtPass == '') {
+            alert("Please Fill Password")
+            $("#txtPass").focus().css('border-color', 'red');
+            return false;
+        }
+        if (txtStatus == "") {
+            alert("Please Fill Status")
+            $("#txtStatus").focus().css('border-color', 'red');
+            return false;
+        }
+        return true;
+    };
+    // --------------------------------Validation Of User Input End ------------------------------
+
+</script>

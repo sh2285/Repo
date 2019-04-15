@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TESTModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="t_user_profile">
+          <Key>
+            <PropertyRef Name="t_user_Id" />
+          </Key>
+          <Property Name="t_user_Id" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="t_user_FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="t_user_LastName" Type="varchar" MaxLength="50" />
+          <Property Name="t_user_Email" Type="varchar" MaxLength="100" />
+          <Property Name="t_user_Pass" Type="varchar" MaxLength="20" />
+          <Property Name="t_user_Status" Type="varchar" MaxLength="5" />
+          <Property Name="t_user_UpdateDt" Type="datetime" />
+          <Property Name="t_user_UpdateBy" Type="varchar" MaxLength="10" />
+          <Property Name="t_user_LoginTime" Type="datetime" />
+          <Property Name="t_user_LogoutTime" Type="datetime" />
+        </EntityType>
+        <EntityContainer Name="TESTModelStoreContainer">
+          <EntitySet Name="t_user_profile" EntityType="Self.t_user_profile" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TESTModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="t_user_profile">
+          <Key>
+            <PropertyRef Name="t_user_Id" />
+          </Key>
+          <Property Name="t_user_Id" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="t_user_FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="t_user_LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="t_user_Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="t_user_Pass" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="t_user_Status" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="t_user_UpdateDt" Type="DateTime" Precision="3" />
+          <Property Name="t_user_UpdateBy" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="t_user_LoginTime" Type="DateTime" Precision="3" />
+          <Property Name="t_user_LogoutTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="TESTEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="t_user_profile" EntityType="Self.t_user_profile" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TESTModelStoreContainer" CdmEntityContainer="TESTEntities">
+          <EntitySetMapping Name="t_user_profile">
+            <EntityTypeMapping TypeName="TESTModel.t_user_profile">
+              <MappingFragment StoreEntitySet="t_user_profile">
+                <ScalarProperty Name="t_user_Id" ColumnName="t_user_Id" />
+                <ScalarProperty Name="t_user_FirstName" ColumnName="t_user_FirstName" />
+                <ScalarProperty Name="t_user_LastName" ColumnName="t_user_LastName" />
+                <ScalarProperty Name="t_user_Email" ColumnName="t_user_Email" />
+                <ScalarProperty Name="t_user_Pass" ColumnName="t_user_Pass" />
+                <ScalarProperty Name="t_user_Status" ColumnName="t_user_Status" />
+                <ScalarProperty Name="t_user_UpdateDt" ColumnName="t_user_UpdateDt" />
+                <ScalarProperty Name="t_user_UpdateBy" ColumnName="t_user_UpdateBy" />
+                <ScalarProperty Name="t_user_LoginTime" ColumnName="t_user_LoginTime" />
+                <ScalarProperty Name="t_user_LogoutTime" ColumnName="t_user_LogoutTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
